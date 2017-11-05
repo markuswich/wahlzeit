@@ -1,4 +1,8 @@
-/*
+ /*
+ * Classname: CoordinateTest
+ *
+ * Date: 05.11.17
+ *
  * This file is part of the Wahlzeit photo rating application.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,40 +23,129 @@
 
 package org.wahlzeit.model;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.assertFalse;
 
 public class CoordinateTest {
 	
+	private static final double EPSILON = 0.0000001;
+	
+	Coordinate zero;
+	Coordinate coord1;
+	Coordinate coord2;
+	Coordinate coord3;
+	Coordinate coord4;
+	Coordinate coord5;
+	Coordinate coord6;
+	Coordinate coord7;
+	Coordinate coord8;
+	
+	@Before
+	public void initialize() {
+		zero = new Coordinate(0.0, 0.0, 0.0);
+		coord1 = new Coordinate(1.23, 4.56, 7.89);
+		coord2 = new Coordinate(0.0, 0.0, 0.0);
+		coord3 = new Coordinate(10, 4, 3);
+		coord4 = new Coordinate(-2, -3, -4);
+		
+		coord5 = new Coordinate(2, 0, 0);
+		coord6 = new Coordinate(0, 3, 0);
+		coord7 = new Coordinate(0, 0, 4);
+		
+		coord8 = new Coordinate(1.23, 4.56, 7.89);
+    }
+	
+	@Test
+	public void testConstructor() {
+		assertNotNull(zero);
+		assertNotNull(coord1);
+		assertNotNull(coord2);
+		assertNotNull(coord3);
+		assertNotNull(coord4);
+		assertNotNull(coord5);
+		assertNotNull(coord6);
+		assertNotNull(coord7);
+		assertNotNull(coord8);
+		
+		
+	}
+	
+	
+	@Test
+	public void testGetter() {
+		assertEquals(coord1.getX(), 1.23, EPSILON);
+		assertEquals(coord1.getY(), 4.56, EPSILON);
+		assertEquals(coord1.getZ(), 7.89, EPSILON);
+	}
+	
+	
+	@Test
+	public void testSetter() {
+		coord2.setX(3);
+		coord2.setY(2);
+		coord2.setZ(1);
+		
+		
+		assertEquals(coord2.getX(), 3, EPSILON);
+		assertEquals(coord2.getY(), 2, EPSILON);
+		assertEquals(coord2.getZ(), 1, EPSILON);
+	}
+	
+	
+	
+	
+	
 	@Test
 	public void testGetDistance() {
-		Coordinate zero = new Coordinate(0.0, 0.0, 0.0);
+
+		assertEquals(coord3.getDistance(coord4), 15.5563491861, EPSILON);
 		
-		Coordinate x = new Coordinate(0.0, 0.0, 5.0);
-		Coordinate y = new Coordinate(4.0, 0.0, 0.0);
-		Coordinate z = new Coordinate(0.0, -3.0, 0.0);
-		
-		assertEquals(0.0, zero.getDistance(zero))
-		
-		assertEquals(5.0, zero.getDistance(x))
-		assertEquals(4.0, zero.getDistance(y))
-		assertEquals(3.0, zero.getDistance(z))
-		
-		assertEquals(5.0, y.getDistance(z))
+		assertEquals(zero.getDistance(coord5), 2, EPSILON);
+		assertEquals(zero.getDistance(coord6), 3, EPSILON);
+		assertEquals(zero.getDistance(coord7), 4, EPSILON);
 	}
+	
+	
+	@Test
+	public void testEquals() {
+		assertTrue(zero.equals(zero));
+		assertTrue(coord1.equals(coord8));
+		
+		
+		assertFalse(zero.equals(coord1));
+		
+		assertFalse(zero.equals(null));
+		assertFalse(zero.equals(new Object()));
+	}
+	
+	
 	
 	@Test
 	public void testIsEqual() {
-		Coordinate x = new Coordinate(0.0, 0.0, 5.0);
-		Coordinate y = new Coordinate(0.0, 0.0, -5.0);
-		Coordinate z = new Coordinate(0.0, 0.0, 5.0);
+		assertTrue(zero.isEqual(zero));
+		assertTrue(coord1.isEqual(coord8));
 		
-		assertFalse(x.isEquals(y))
-		assertFalse(y.isEquals(z))
-		assertTrue(x.isEquals(x))
-		assertTrue(x.isEquals(z))
+		assertFalse(zero.isEqual(coord1));
 	}
+	
+	@Test(expected = NullPointerException.class) 
+	public void testIsEqualException() { 
+		zero.isEqual(null);
+	}
+	
+	
+	@Test
+	public void testHashCode() {
+		assertTrue(zero.hashCode() == zero.hashCode());
+		assertTrue(coord1.hashCode() == coord8.hashCode());
+		
+		assertFalse(coord1.hashCode() == coord3.hashCode());
+	}
+	
+	
 }

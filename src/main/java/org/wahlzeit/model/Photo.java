@@ -1,4 +1,8 @@
 /*
+ * Classname: Photo
+ *
+ * Date: 05.11.17
+ *
  * Copyright (c) 2006-2009 by Dirk Riehle, http://dirkriehle.com
  *
  * This file is part of the Wahlzeit photo rating application.
@@ -405,6 +409,11 @@ public class Photo extends DataObject {
 	public String getEnding() {
 		return ending;
 	}
+	
+	public Location getLocation() {
+		return this.location;
+	}
+	
 
 	public void setEnding(String ending) {
 		this.ending = ending;

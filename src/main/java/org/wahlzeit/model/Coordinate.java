@@ -1,4 +1,8 @@
 /*
+ * Classname: Coordinate
+ *
+ * Date: 05.11.17
+ * 
  * This file is part of the Wahlzeit photo rating application.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,6 +23,8 @@
 package org.wahlzeit.model;
 
 import java.lang.Math;
+import java.util.Objects;
+
 
 public class Coordinate {
 	
@@ -45,14 +51,31 @@ public class Coordinate {
 	* Checks if this coordinate and the coordinate given as an argument are at the same position
 	*/
 	public boolean isEqual(Coordinate coord) {
-		if(this.x == coord.getX() && this.y == coord.getY() && this.z == coord.getZ()) {
+		if(Double.compare(this.x, coord.getX()) == 0 && Double.compare(this.y, coord.getY()) == 0 && Double.compare(this.z, coord.getZ()) == 0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) {
+			return false;
+		}
+		if(obj instanceof Coordinate == false) {
+			return false;
+		}
+		if(obj == this) {
+			return true;
+		}
+		return this.isEqual((Coordinate) obj);
+	}
 	
+	@Override
+    public int hashCode() {
+		return Objects.hash(this.x, this.y, this.z);
+    }
 	
 	public double getX() {
 		return x;
@@ -64,6 +87,19 @@ public class Coordinate {
 	
 	public double getZ() {
 		return z;
+	}
+	
+	
+	public double setX(double x) {
+		return this.x = x;
+	}
+	
+	public double setY(double y) {
+		return this.y = y;
+	}
+	
+	public double setZ(double z) {
+		return this.z = z;
 	}
 	
 }

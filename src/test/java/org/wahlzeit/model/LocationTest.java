@@ -1,5 +1,5 @@
 /*
- * Classname: Location
+ * Classname: LocationTest
  *
  * Date: 05.11.17
  *
@@ -19,30 +19,37 @@
  * License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-
 package org.wahlzeit.model;
 
+import org.junit.Before;
+import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
-public class Location {
+public class LocationTest {
 	
-	private Coordinate coordinate;
 	
-	public Location(Coordinate coordinate) {
-		this.coordinate = coordinate;
+	Coordinate coordinate;
+	Location location;
+	
+	
+	@Before
+	public void initialize() {
+		coordinate = new Coordinate(0, 0, 0);
+		location = new Location(coordinate);
 	}
+
 	
 	
-	public Coordinate getCoordinate() {
-		return coordinate;
+	@Test
+	public void testConstructorAndGetter() {
+		assertNotNull(location);
+		
+		assertNotNull(location.getCoordinate());
 	}
-	
-	public void setCoordinate(Coordinate coord) {
-		this.coordinate = coord;
-	}
-	
-	
-	
 	
 	
 }
