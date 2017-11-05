@@ -1,5 +1,5 @@
 /*
- * Classname: Coordinate
+ * Classname: EmailServiceTest
  *
  * Date: 05.11.17
  * 

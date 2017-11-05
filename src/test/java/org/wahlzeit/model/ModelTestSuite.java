@@ -1,5 +1,5 @@
 /*
- * Classname: Coordinate
+ * Classname: ModelTestSuite
  *
  * Date: 05.11.17
  * 

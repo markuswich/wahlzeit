@@ -1,5 +1,5 @@
 /*
- * Classname: Coordinate
+ * Classname: PersistenceTestSuite
  *
  * Date: 05.11.17
  * 
