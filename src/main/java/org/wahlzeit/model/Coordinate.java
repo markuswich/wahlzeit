@@ -28,6 +28,8 @@ import java.util.Objects;
 
 public class Coordinate {
 	
+	private static final double EPSILON = 0.0000001;
+	
 	private double x = 0.0;
 	private double y = 0.0;
 	private double z = 0.0;
@@ -51,7 +53,7 @@ public class Coordinate {
 	* Checks if this coordinate and the coordinate given as an argument are at the same position
 	*/
 	public boolean isEqual(Coordinate coord) {
-		if(Double.compare(this.x, coord.getX()) == 0 && Double.compare(this.y, coord.getY()) == 0 && Double.compare(this.z, coord.getZ()) == 0) {
+		if(Math.abs(this.x - coord.getX()) < EPSILON && Math.abs(this.y - coord.getY()) < EPSILON && Math.abs(this.z - coord.getZ()) < EPSILON) {
 			return true;
 		} else {
 			return false;
