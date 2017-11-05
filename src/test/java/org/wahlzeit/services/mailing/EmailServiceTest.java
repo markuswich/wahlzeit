@@ -1,6 +1,8 @@
 /*
- * Copyright (c) 2006-2009 by Dirk Riehle, http://dirkriehle.com
+ * Classname: Coordinate
  *
+ * Date: 05.11.17
+ * 
  * This file is part of the Wahlzeit photo rating application.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,6 +19,8 @@
  * License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+
+
 package org.wahlzeit.services.mailing;
 
 import org.junit.Assert;
@@ -31,19 +35,26 @@ public class EmailServiceTest {
 
 	EmailService emailService = null;
 	EmailAddress validAddress = null;
-
+	EmailAddress validAddress2 = null;
+	
+	
+	
 	@Before
 	public void setup() throws Exception {
 		emailService = EmailServiceManager.getDefaultService();
 		validAddress = EmailAddress.getFromString("test@test.de");
+		validAddress2 = EmailAddress.getFromString("test2@test.de");
 	}
 
 	@Test
-	public void testSendInvalidEmail() {
+	public void testSendInvalidAddressEmail() {
 		try {
 			assertFalse(emailService.sendEmailIgnoreException(validAddress, null, "lol", "hi"));
 			assertFalse(emailService.sendEmailIgnoreException(null, validAddress, null, "body"));
 			assertFalse(emailService.sendEmailIgnoreException(validAddress, null, "hi", "       "));
+			assertFalse(emailService.sendEmailIgnoreException(null, null, "hi", "       "));
+			assertFalse(emailService.sendEmailIgnoreException(null, null, null, "body"));
+
 		} catch (Exception ex) {
 			Assert.fail("Silent mode does not allow exceptions");
 		}
@@ -53,6 +64,28 @@ public class EmailServiceTest {
 	public void testSendValidEmail() {
 		try {
 			assertTrue(emailService.sendEmailIgnoreException(validAddress, validAddress, "hi", "test"));
+			assertTrue(emailService.sendEmailIgnoreException(validAddress, validAddress2, "hi", "test"));
+		} catch (Exception ex) {
+			Assert.fail("Silent mode does not allow exceptions");
+		}
+	}
+	
+	
+	@Test
+	public void testSendInvalidBodyEmail() {
+		try {
+			assertFalse(emailService.sendEmailIgnoreException(validAddress, validAddress, "subject", ""));
+			assertFalse(emailService.sendEmailIgnoreException(validAddress, validAddress, "subject", null));
+		} catch (Exception ex) {
+			Assert.fail("Silent mode does not allow exceptions");
+		}
+	}
+	
+	@Test
+	public void testSendInvalidSubjectEmail() {
+		try {
+			assertFalse(emailService.sendEmailIgnoreException(validAddress, validAddress, "", "body"));
+			assertFalse(emailService.sendEmailIgnoreException(validAddress, validAddress, null, "body"));
 		} catch (Exception ex) {
 			Assert.fail("Silent mode does not allow exceptions");
 		}
