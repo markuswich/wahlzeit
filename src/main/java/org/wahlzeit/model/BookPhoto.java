@@ -1,8 +1,8 @@
 /*
- * Classname: ModelTestSuite
+ * Classname: BookPhoto
  *
- * Date: 05.11.17
- * 
+ * Date: 12.11.17
+ *
  * This file is part of the Wahlzeit photo rating application.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,33 +22,46 @@
 
 package org.wahlzeit.model;
 
-
-import org.junit.runner.*;
-import org.junit.runners.*;
-
-import org.wahlzeit.model.persistence.PersistenceTestSuite;
+import java.util.*;
 
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-	PersistenceTestSuite.class,
-	AccessRightsTest.class,
-	CoordinateTest.class,
-	FlagReasonTest.class,
-	GenderTest.class,
-	GuestTest.class,
-	LocationTest.class,
-	PhotoFilterTest.class,
-	TagsTest.class,
-	UserStatusTest.class,
-	ValueTest.class,
-	BookPhotoTest.class,
-	BookPhotoManagerTest.class,
-	BookPhotoFactoryTest.class
-})
 
-
-public class ModelTestSuite {
+public class BookPhoto extends Photo {
+	
+	private ArrayList<String> authors = new ArrayList<String>();
+	private String publisher = null;
+	
+	public BookPhoto() {
+		super();
+	}
+	
+	public BookPhoto(PhotoId myId) {
+		super(myId);
+	}
+	
+	public void addAuthor(String author) {
+		if(author != null && !author.isEmpty()) {
+			this.authors.add(author);
+		}
+	}
+	
+	public void removeAuthor(String author) {
+		this.authors.remove(author);
+	}
+	
+	public ArrayList<String> getAuthors() {
+		return this.authors;
+	}
+	
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+	
+	public String getPublisher() {
+		return this.publisher;
+	}
+	
+	
 	
 	
 }

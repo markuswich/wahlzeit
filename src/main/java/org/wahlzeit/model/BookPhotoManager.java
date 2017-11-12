@@ -1,8 +1,8 @@
 /*
- * Classname: ModelTestSuite
+ * Classname: BookPhotoManager
  *
- * Date: 05.11.17
- * 
+ * Date: 12.11.17
+ *
  * This file is part of the Wahlzeit photo rating application.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,33 +22,16 @@
 
 package org.wahlzeit.model;
 
-
-import org.junit.runner.*;
-import org.junit.runners.*;
-
-import org.wahlzeit.model.persistence.PersistenceTestSuite;
-
-
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-	PersistenceTestSuite.class,
-	AccessRightsTest.class,
-	CoordinateTest.class,
-	FlagReasonTest.class,
-	GenderTest.class,
-	GuestTest.class,
-	LocationTest.class,
-	PhotoFilterTest.class,
-	TagsTest.class,
-	UserStatusTest.class,
-	ValueTest.class,
-	BookPhotoTest.class,
-	BookPhotoManagerTest.class,
-	BookPhotoFactoryTest.class
-})
-
-
-public class ModelTestSuite {
+public class BookPhotoManager extends PhotoManager {
 	
+	private static final BookPhotoManager instance = new BookPhotoManager();
+	
+	public BookPhotoManager() {
+		photoTagCollector = BookPhotoFactory.getInstance().createPhotoTagCollector();
+	}
+	
+	public static BookPhotoManager getInstance() {
+		return instance;
+	}
 	
 }
