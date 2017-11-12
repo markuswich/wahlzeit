@@ -29,7 +29,6 @@ import org.junit.runners.*;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	AbstractAdapterTest.class,
 	DatastoreAdapterTest.class
 })
 

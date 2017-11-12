@@ -37,7 +37,7 @@ public class LocationTest {
 	
 	
 	@Before
-	public void initialize() {
+	public void setUp() {
 		coordinate = new Coordinate(0, 0, 0);
 		location = new Location(coordinate);
 	}

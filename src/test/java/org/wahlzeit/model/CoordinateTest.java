@@ -46,7 +46,7 @@ public class CoordinateTest {
 	Coordinate coord8;
 	
 	@Before
-	public void initialize() {
+	public void setUp() {
 		zero = new Coordinate(0.0, 0.0, 0.0);
 		coord1 = new Coordinate(1.23, 4.56, 7.89);
 		coord2 = new Coordinate(0.0, 0.0, 0.0);
