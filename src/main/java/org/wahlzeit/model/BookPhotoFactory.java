@@ -39,7 +39,6 @@ public class BookPhotoFactory extends PhotoFactory {
 	/**
 	 * Public singleton access method.
 	 */
-	@Override
 	public static synchronized BookPhotoFactory getInstance() {
 		if (instance == null) {
 			log.config(LogBuilder.createSystemMessage().addAction("setting generic BookPhotoFactory").toString());
@@ -52,7 +51,6 @@ public class BookPhotoFactory extends PhotoFactory {
 	/**
 	 * Method to set the singleton instance of PhotoFactory.
 	 */
-	@Override
 	protected static synchronized void setInstance(BookPhotoFactory bookPhotoFactory) {
 		if (instance != null) {
 			throw new IllegalStateException("attempt to initalize BookPhotoFactory twice");
