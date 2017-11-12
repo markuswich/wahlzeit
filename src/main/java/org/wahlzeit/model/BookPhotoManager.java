@@ -30,6 +30,7 @@ public class BookPhotoManager extends PhotoManager {
 		photoTagCollector = BookPhotoFactory.getInstance().createPhotoTagCollector();
 	}
 	
+	@Override
 	public static BookPhotoManager getInstance() {
 		return instance;
 	}
