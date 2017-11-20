@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
 public class CoordinateTest {
-	
+	/**
 	private static final double EPSILON = 0.0000001;
 	
 	Coordinate zero;
@@ -147,5 +147,5 @@ public class CoordinateTest {
 		assertFalse(coord1.hashCode() == coord3.hashCode());
 	}
 	
-	
+	**/
 }
