@@ -35,23 +35,9 @@ public class SphericCoordinate implements Coordinate {
 	private double radius = 0.0;
 	
 	public SphericCoordinate(double latitude, double longitude, double radius) {
-		
-		if(radius < 0) {
-		    //throw new IllegalArgumentException("Radius must be in [0, infinity)");
-		}
-		
-		if(latitude < 0 || latitude > 180) {
-			//throw new IllegalArgumentException("Latitude must be in [0, 180]");
-		}
-		
-		if(longitude < 0 || longitude >= 360) {
-			//throw new IllegalArgumentException("Longitude must be in [0, 360)");
-		}
-		
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.radius = radius;
-		
 	}
 	
 	@Override
@@ -138,23 +124,14 @@ public class SphericCoordinate implements Coordinate {
 	
 	
 	public double setLatitude(double latitude) {
-		if(latitude < 0 || latitude > 180) {
-			//throw new IllegalArgumentException("Latitude must be in [0, 180]");
-		}
 		return this.latitude = latitude;
 	}
 	
 	public double setLongitude(double longitude) {
-		if(longitude < 0 || longitude >= 360) {
-			//throw new IllegalArgumentException("Longitude must be in [0, 360)");
-		}
 		return this.longitude = longitude;
 	}
 	
 	public double setRadius(double radius) {
-		if(radius < 0) {
-		    //throw new IllegalArgumentException("Radius must be in [0, infinity)");
-		}
 		return this.radius = radius;
 	}
 	

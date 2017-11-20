@@ -38,7 +38,6 @@ public class SphericCoordinateTest {
 	SphericCoordinate coord1;
 	SphericCoordinate coord2;
 	SphericCoordinate coord3;
-	SphericCoordinate coord4;
 	SphericCoordinate coord8;
 	
 	SphericCoordinate a;
@@ -49,7 +48,6 @@ public class SphericCoordinateTest {
 		coord1 = new SphericCoordinate(74.904479155789, 30.904855467356, 9.1955750228031);
 		coord2 = new SphericCoordinate(0, 0, 0);
 		coord3 = new SphericCoordinate(21.80140948635, 74.435193338612, 11.180339887499);
-		coord4 = new SphericCoordinate(-123.69006752598, 137.9688862258	, 5.3851648071345);
 		
 		
 		coord8 = new SphericCoordinate(74.904479155789, 30.904855467356, 9.1955750228031);
@@ -63,7 +61,6 @@ public class SphericCoordinateTest {
 		assertNotNull(coord1);
 		assertNotNull(coord2);
 		assertNotNull(coord3);
-		assertNotNull(coord4);
 		assertNotNull(coord8);
 		
 		assertNotNull(a);
