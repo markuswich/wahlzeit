@@ -26,9 +26,8 @@ import java.lang.Math;
 import java.util.Objects;
 
 
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 	
-	private static final double EPSILON = 0.0000001;
 	
 	private double latitude = 0.0;
 	private double longitude = 0.0;
@@ -40,44 +39,6 @@ public class SphericCoordinate implements Coordinate {
 		this.radius = radius;
 	}
 	
-	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
-		double x = this.getRadius() * Math.sin(Math.toRadians(this.getLongitude())) * Math.cos(Math.toRadians(this.getLatitude()));
-		double y = this.getRadius() * Math.sin(Math.toRadians(this.getLatitude())) * Math.sin(Math.toRadians(this.getLongitude()));
-		double z = this.getRadius() * Math.cos(Math.toRadians(this.getLongitude()));
-		
-		return new CartesianCoordinate(x, y, z);
-	}
-	
-	@Override
-	public double getCartesianDistance(Coordinate coord) {
-		CartesianCoordinate thisCartesian = this.asCartesianCoordinate();
-		CartesianCoordinate cartesian = coord.asCartesianCoordinate();
-		
-		double inRoot = Math.pow(thisCartesian.getX() - cartesian.getX(), 2) + 
-						Math.pow(thisCartesian.getY() - cartesian.getY(), 2) + 
-						Math.pow(thisCartesian.getZ() - cartesian.getZ(), 2);
-		return Math.sqrt(inRoot);
-	}
-	
-	@Override
-	public SphericCoordinate asSphericCoordinate() {
-		return new SphericCoordinate(this.getLatitude(), this.getLongitude(), this.getRadius());
-	}
-	
-	@Override
-	public double getSphericDistance(Coordinate coord) {
-		SphericCoordinate spheric = coord.asSphericCoordinate();
-		
-		return Math.sqrt(Math.pow(this.getRadius(), 2) + Math.pow(spheric.getRadius(), 2) - 2 * this.getRadius() * spheric.getRadius() * 
-				(Math.sin(Math.toRadians(this.getLatitude())) * Math.sin(Math.toRadians(spheric.getLatitude())) * Math.cos(Math.toRadians(this.getLongitude() - spheric.getLongitude())) + 
-						Math.cos(Math.toRadians(this.getLatitude())) * Math.cos(Math.toRadians(spheric.getLatitude()))));
-	}
-	
-	@Override
-	public double getDistance(Coordinate coord) {
-		return this.getSphericDistance(coord);
-	}
 	
 	@Override
 	public boolean isEqual(Coordinate coord) {
@@ -90,20 +51,6 @@ public class SphericCoordinate implements Coordinate {
 		}
 	}
 	
-	
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == null) {
-			return false;
-		}
-		if(obj instanceof Coordinate == false) {
-			return false;
-		}
-		if(obj == this) {
-			return true;
-		}
-		return this.isEqual((Coordinate) obj);
-	}
 	
 	@Override
     public int hashCode() {

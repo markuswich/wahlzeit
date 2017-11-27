@@ -26,9 +26,8 @@ import java.lang.Math;
 import java.util.Objects;
 
 
-public class CartesianCoordinate implements Coordinate {
+public class CartesianCoordinate extends AbstractCoordinate {
 	
-	private static final double EPSILON = 0.0000001;
 	
 	private double x = 0.0;
 	private double y = 0.0;
@@ -40,44 +39,6 @@ public class CartesianCoordinate implements Coordinate {
 		this.z = z;
 	}
 	
-	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
-		return new CartesianCoordinate(this.getX(), this.getY(), this.getZ());
-	}
-	
-	@Override
-	public double getCartesianDistance(Coordinate coord) {
-		CartesianCoordinate cartesian = coord.asCartesianCoordinate();
-		
-		double inRoot = Math.pow(x - cartesian.getX(), 2) + Math.pow(y - cartesian.getY(), 2) + Math.pow(z - cartesian.getZ(), 2);
-		return Math.sqrt(inRoot);
-	}
-	
-	@Override
-	public SphericCoordinate asSphericCoordinate() {
-		double r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-		double theta = Math.toDegrees(Math.acos(z / r));
-		double phi = Math.toDegrees(Math.atan(y / x));
-		
-		return new SphericCoordinate(theta, phi, r);
-	}
-	
-	@Override
-	public double getSphericDistance(Coordinate coord) {
-		SphericCoordinate thisSpheric = this.asSphericCoordinate();
-		SphericCoordinate spheric = coord.asSphericCoordinate();
-		
-		
-		return Math.sqrt(Math.pow(thisSpheric.getRadius(), 2) + Math.pow(spheric.getRadius(), 2) - 2 * thisSpheric.getRadius() * spheric.getRadius() * 
-				(Math.sin(Math.toRadians(thisSpheric.getLatitude())) * Math.sin(Math.toRadians(spheric.getLatitude())) * Math.cos(Math.toRadians(thisSpheric.getLongitude() - spheric.getLongitude())) + 
-						Math.cos(Math.toRadians(thisSpheric.getLatitude())) * Math.cos(Math.toRadians(spheric.getLatitude()))));
-		
-	}
-	
-	@Override
-	public double getDistance(Coordinate coord) {
-		return this.getCartesianDistance(coord);
-	}
 	
 	@Override
 	public boolean isEqual(Coordinate coord) {
@@ -90,26 +51,15 @@ public class CartesianCoordinate implements Coordinate {
 		}
 	}
 	
-	
-	
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == null) {
-			return false;
-		}
-		if(obj instanceof Coordinate == false) {
-			return false;
-		}
-		if(obj == this) {
-			return true;
-		}
-		return this.isEqual((Coordinate) obj);
-	}
-	
 	@Override
     public int hashCode() {
 		return Objects.hash(this.x, this.y, this.z);
     }
+	
+	
+	
+	
+	
 	
 	public double getX() {
 		return x;
