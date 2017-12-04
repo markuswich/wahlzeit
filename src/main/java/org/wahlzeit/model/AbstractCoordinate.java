@@ -49,6 +49,9 @@ public abstract class AbstractCoordinate implements Coordinate {
 	
 	@Override
 	public double getCartesianDistance(Coordinate coord) {
+		//preconditions
+		assert(coord != null) : "The given coordinate can not be null";
+		
 		assertClassInvariants();
 		
 		CartesianCoordinate thisCartesian = this.asCartesianCoordinate();
@@ -84,6 +87,9 @@ public abstract class AbstractCoordinate implements Coordinate {
 	
 	@Override
 	public double getSphericDistance(Coordinate coord) {
+		//preconditions
+		assert(coord != null) : "The given coordinate can not be null";
+			
 		assertClassInvariants();
 		
 		SphericCoordinate thisSpheric = this.asSphericCoordinate();
@@ -97,6 +103,9 @@ public abstract class AbstractCoordinate implements Coordinate {
 	
 	@Override
 	public double getDistance(Coordinate coord) {
+		//preconditions
+		assert(coord != null) : "The given coordinate can not be null";
+		
 		assertClassInvariants();
 		return this.asCartesianCoordinate().getCartesianDistance(coord);
 	}

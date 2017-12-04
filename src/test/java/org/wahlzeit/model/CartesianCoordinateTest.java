@@ -177,7 +177,7 @@ public class CartesianCoordinateTest {
 	}
 	
 	
-	@Test(expected = NullPointerException.class) 
+	@Test(expected = java.lang.AssertionError.class) 
 	public void testIsEqualException() { 
 		zero.isEqual(null);
 	}

@@ -143,7 +143,7 @@ public class SphericCoordinateTest {
 		assertFalse(coord1.equals(new Object()));
 	}
 	
-	@Test(expected = NullPointerException.class) 
+	@Test(expected = java.lang.AssertionError.class) 
 	public void testIsEqualException() { 
 		coord1.isEqual(null);
 	}

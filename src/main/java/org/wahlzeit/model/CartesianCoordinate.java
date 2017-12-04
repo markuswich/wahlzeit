@@ -44,13 +44,18 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	
 	@Override
 	public boolean isEqual(Coordinate coord) {
+		//preconditions
+		assert(coord != null) : "The given coordinate can not be null";
+		
 		this.assertClassInvariants();
 		
 		CartesianCoordinate cartesian = coord.asCartesianCoordinate();
 		
 		if(Math.abs(this.x - cartesian.getX()) < EPSILON && Math.abs(this.y - cartesian.getY()) < EPSILON && Math.abs(this.z - cartesian.getZ()) < EPSILON) {
+			this.assertClassInvariants();
 			return true;
 		} else {
+			this.assertClassInvariants();
 			return false;
 		}
 	}
@@ -83,16 +88,28 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	
 	
 	public void setX(double x) {
+		//preconditions
+		assert(!Double.isNaN(x)) : "x can not be NaN";
+		assert(!Double.isInfinite(x)) : "x can not be infinite";
+		
 		this.assertClassInvariants();
 		this.x = x;
 	}
 	
 	public void setY(double y) {
+		//preconditions
+		assert(!Double.isNaN(y)) : "y can not be NaN";
+		assert(!Double.isInfinite(y)) : "y can not be infinite";
+		
 		this.assertClassInvariants();
 		this.y = y;
 	}
 	
 	public void setZ(double z) {
+		//preconditions
+		assert(!Double.isNaN(z)) : "z can not be NaN";
+		assert(!Double.isInfinite(z)) : "z can not be infinite";
+		
 		this.assertClassInvariants();
 		this.z = z;
 	}

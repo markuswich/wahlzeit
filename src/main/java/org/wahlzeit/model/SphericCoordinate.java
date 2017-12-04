@@ -44,13 +44,18 @@ public class SphericCoordinate extends AbstractCoordinate {
 	
 	@Override
 	public boolean isEqual(Coordinate coord) {
+		//preconditions
+		assert(coord != null) : "The given coordinate can not be null";
+		
 		this.assertClassInvariants();
 		
 		SphericCoordinate spheric = coord.asSphericCoordinate();
 		
 		if(Math.abs(this.latitude - spheric.getLatitude()) < EPSILON && Math.abs(this.longitude - spheric.getLongitude()) < EPSILON && Math.abs(this.radius - spheric.getRadius()) < EPSILON) {
+			this.assertClassInvariants();
 			return true;
 		} else {
+			this.assertClassInvariants();
 			return false;
 		}
 	}
@@ -79,16 +84,29 @@ public class SphericCoordinate extends AbstractCoordinate {
 	
 	
 	public void setLatitude(double latitude) {
+		//preconditions
+		assert(!Double.isNaN(latitude)) : "latitude can not be NaN";
+		assert(-90 <= latitude && latitude <= 90) : "latitude must be between -90 and 90 (inclusive)";
+		
 		this.assertClassInvariants();
 		this.latitude = latitude;
 	}
 	
 	public void setLongitude(double longitude) {
+		//preconditions
+		assert(!Double.isNaN(longitude)) : "longitude can not be NaN";
+		assert(-180 <= longitude && longitude <= 180) : "longitude must be between -180 and 180 (inclusive)";
+		
 		this.assertClassInvariants();
 		this.longitude = longitude;
 	}
 	
 	public void setRadius(double radius) {
+		//preconditions
+		assert(!Double.isNaN(radius)) : "radius can not be NaN";
+		assert(0 <= radius) : "radius must be bigger or equal to zero";
+		assert(!Double.isInfinite(radius)) : "radius can not be infinite";
+		
 		this.assertClassInvariants();
 		this.radius = radius;
 	}
