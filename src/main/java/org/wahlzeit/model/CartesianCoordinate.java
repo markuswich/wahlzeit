@@ -37,11 +37,15 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		
+		this.assertClassInvariants();
 	}
 	
 	
 	@Override
 	public boolean isEqual(Coordinate coord) {
+		this.assertClassInvariants();
+		
 		CartesianCoordinate cartesian = coord.asCartesianCoordinate();
 		
 		if(Math.abs(this.x - cartesian.getX()) < EPSILON && Math.abs(this.y - cartesian.getY()) < EPSILON && Math.abs(this.z - cartesian.getZ()) < EPSILON) {
@@ -53,6 +57,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	
 	@Override
     public int hashCode() {
+		this.assertClassInvariants();
 		return Objects.hash(this.x, this.y, this.z);
     }
 	
@@ -62,28 +67,45 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	
 	
 	public double getX() {
+		this.assertClassInvariants();
 		return x;
 	}
 	
 	public double getY() {
+		this.assertClassInvariants();
 		return y;
 	}
 	
 	public double getZ() {
+		this.assertClassInvariants();
 		return z;
 	}
 	
 	
-	public double setX(double x) {
-		return this.x = x;
+	public void setX(double x) {
+		this.assertClassInvariants();
+		this.x = x;
 	}
 	
-	public double setY(double y) {
-		return this.y = y;
+	public void setY(double y) {
+		this.assertClassInvariants();
+		this.y = y;
 	}
 	
-	public double setZ(double z) {
-		return this.z = z;
+	public void setZ(double z) {
+		this.assertClassInvariants();
+		this.z = z;
+	}
+	
+	@Override
+	protected void assertClassInvariants() {
+		assert(!Double.isNaN(x)) : "x can not be NaN";
+		assert(!Double.isNaN(y)) : "y can not be NaN";
+		assert(!Double.isNaN(z)) : "z can not be NaN";
+		
+		assert(!Double.isInfinite(x)) : "x can not be infinite";
+		assert(!Double.isInfinite(y)) : "y can not be infinite";
+		assert(!Double.isInfinite(z)) : "z can not be infinite";
 	}
 	
 }

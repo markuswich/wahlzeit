@@ -63,7 +63,7 @@ public class CartesianCoordinateTest {
 		coord8 = new CartesianCoordinate(1.23, 4.56, 7.89);
 		
 		a = new SphericCoordinate(-45, 0, 9);
-		b = new SphericCoordinate(70, 0, -4);
+		b = new SphericCoordinate(70, 0, 4);
     }
 	
 	@Test
@@ -132,18 +132,18 @@ public class CartesianCoordinateTest {
 	public void testAsSphericCoordinate() {
 		SphericCoordinate spheric = coord1.asSphericCoordinate();
 		
-		assertEquals(spheric.getLatitude(), 30.904855467356, EPSILON);
-		assertEquals(spheric.getLongitude(), 74.90447915578930, EPSILON);
-		assertEquals(spheric.getRadius(), 9.1955750228031, EPSILON);
+		assertEquals(spheric.getLatitude(), 30.904855467355684, EPSILON);
+		assertEquals(spheric.getLongitude(), 74.9044791557889, EPSILON);
+		assertEquals(spheric.getRadius(), 9.195575022803087, EPSILON);
 		
-		/**System.out.println(spheric.getLatitude());
+		System.out.println(spheric.getLatitude());
 		System.out.println(spheric.getLongitude());
-		System.out.println(spheric.getRadius());**/
+		System.out.println(spheric.getRadius());
 	}
 	
 	@Test
 	public void testGetSphericDistance() {
-		assertEquals(a.getSphericDistance(b), 8.16, 0.01);
+		assertEquals(a.getSphericDistance(b), 11.28, 0.01);
 	}
 	
 	@Test
@@ -190,4 +190,6 @@ public class CartesianCoordinateTest {
 		
 		assertFalse(coord1.hashCode() == coord3.hashCode());
 	}
+	
+	
 }

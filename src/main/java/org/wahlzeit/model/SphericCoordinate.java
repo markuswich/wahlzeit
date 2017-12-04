@@ -37,11 +37,15 @@ public class SphericCoordinate extends AbstractCoordinate {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.radius = radius;
+		
+		this.assertClassInvariants();
 	}
 	
 	
 	@Override
 	public boolean isEqual(Coordinate coord) {
+		this.assertClassInvariants();
+		
 		SphericCoordinate spheric = coord.asSphericCoordinate();
 		
 		if(Math.abs(this.latitude - spheric.getLatitude()) < EPSILON && Math.abs(this.longitude - spheric.getLongitude()) < EPSILON && Math.abs(this.radius - spheric.getRadius()) < EPSILON) {
@@ -54,32 +58,51 @@ public class SphericCoordinate extends AbstractCoordinate {
 	
 	@Override
     public int hashCode() {
+		this.assertClassInvariants();
 		return Objects.hash(this.latitude, this.longitude, this.radius);
     }
 	
 	public double getLatitude() {
+		this.assertClassInvariants();
 		return latitude;
 	}
 	
 	public double getLongitude() {
+		this.assertClassInvariants();
 		return longitude;
 	}
 	
 	public double getRadius() {
+		this.assertClassInvariants();
 		return radius;
 	}
 	
 	
-	public double setLatitude(double latitude) {
-		return this.latitude = latitude;
+	public void setLatitude(double latitude) {
+		this.assertClassInvariants();
+		this.latitude = latitude;
 	}
 	
-	public double setLongitude(double longitude) {
-		return this.longitude = longitude;
+	public void setLongitude(double longitude) {
+		this.assertClassInvariants();
+		this.longitude = longitude;
 	}
 	
-	public double setRadius(double radius) {
-		return this.radius = radius;
+	public void setRadius(double radius) {
+		this.assertClassInvariants();
+		this.radius = radius;
+	}
+	
+	@Override
+	protected void assertClassInvariants() {
+		assert(!Double.isNaN(latitude)) : "latitude can not be NaN";
+		assert(!Double.isNaN(longitude)) : "longitude can not be NaN";
+		assert(!Double.isNaN(radius)) : "radius can not be NaN";
+		
+		assert(-90 <= latitude && latitude <= 90) : "latitude must be between -90 and 90 (inclusive)";
+		assert(-180 <= longitude && longitude <= 180) : "longitude must be between -180 and 180 (inclusive)";
+		assert(0 <= radius) : "radius must be bigger or equal to zero";
+		assert(!Double.isInfinite(radius)) : "radius can not be infinite";
 	}
 	
 }

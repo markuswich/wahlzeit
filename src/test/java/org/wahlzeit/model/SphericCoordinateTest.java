@@ -53,7 +53,7 @@ public class SphericCoordinateTest {
 		coord8 = new SphericCoordinate(74.904479155789, 30.904855467356, 9.1955750228031);
 		
 		a = new SphericCoordinate(-45, 0, 9);
-		b = new SphericCoordinate(70, 0, -4);
+		b = new SphericCoordinate(70, 0, 4);
     }
 	
 	@Test
@@ -113,7 +113,7 @@ public class SphericCoordinateTest {
 	
 	@Test
 	public void testGetSphericDistance() {
-		assertEquals(a.getSphericDistance(b), 8.16, 0.01);
+		assertEquals(a.getSphericDistance(b), 11.28, 0.01);
 	}
 	
 	@Test

@@ -29,6 +29,8 @@ public abstract class AbstractCoordinate implements Coordinate {
 	
 	@Override
 	public CartesianCoordinate asCartesianCoordinate() {
+		assertClassInvariants();
+		
 		if (this instanceof CartesianCoordinate) {
 			CartesianCoordinate thisCartesian = (CartesianCoordinate) this;
 			
@@ -41,22 +43,29 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double y = thisSpheric.getRadius() * Math.sin(Math.toRadians(thisSpheric.getLatitude())) * Math.sin(Math.toRadians(thisSpheric.getLongitude()));
 		double z = thisSpheric.getRadius() * Math.cos(Math.toRadians(thisSpheric.getLongitude()));
 		
+		assertClassInvariants();
 		return new CartesianCoordinate(x, y, z);
 	}
 	
 	@Override
 	public double getCartesianDistance(Coordinate coord) {
+		assertClassInvariants();
+		
 		CartesianCoordinate thisCartesian = this.asCartesianCoordinate();
 		CartesianCoordinate cartesian = coord.asCartesianCoordinate();
 		
 		double inRoot = Math.pow(thisCartesian.getX() - cartesian.getX(), 2) + 
 						Math.pow(thisCartesian.getY() - cartesian.getY(), 2) + 
 						Math.pow(thisCartesian.getZ() - cartesian.getZ(), 2);
+		
+		assertClassInvariants();
 		return Math.sqrt(inRoot);
 	}
 	
 	@Override
 	public SphericCoordinate asSphericCoordinate() {
+		assertClassInvariants();
+		
 		if (this instanceof SphericCoordinate) {
 			SphericCoordinate thisSpheric = (SphericCoordinate) this;
 			
@@ -69,14 +78,18 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double theta = Math.toDegrees(Math.acos(thisCartesian.getZ() / r));
 		double phi = Math.toDegrees(Math.atan(thisCartesian.getY() / thisCartesian.getX()));
 		
+		assertClassInvariants();
 		return new SphericCoordinate(theta, phi, r);
 	}
 	
 	@Override
 	public double getSphericDistance(Coordinate coord) {
+		assertClassInvariants();
+		
 		SphericCoordinate thisSpheric = this.asSphericCoordinate();
 		SphericCoordinate spheric = coord.asSphericCoordinate();
 		
+		assertClassInvariants();
 		return Math.sqrt(Math.pow(thisSpheric.getRadius(), 2) + Math.pow(spheric.getRadius(), 2) - 2 * thisSpheric.getRadius() * spheric.getRadius() * 
 				(Math.sin(Math.toRadians(thisSpheric.getLatitude())) * Math.sin(Math.toRadians(spheric.getLatitude())) * Math.cos(Math.toRadians(thisSpheric.getLongitude() - spheric.getLongitude())) + 
 						Math.cos(Math.toRadians(thisSpheric.getLatitude())) * Math.cos(Math.toRadians(spheric.getLatitude()))));
@@ -84,6 +97,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	
 	@Override
 	public double getDistance(Coordinate coord) {
+		assertClassInvariants();
 		return this.asCartesianCoordinate().getCartesianDistance(coord);
 	}
 	
@@ -92,6 +106,8 @@ public abstract class AbstractCoordinate implements Coordinate {
 	
 	@Override
 	public boolean equals(Object obj) {
+		assertClassInvariants();
+		
 		if(obj == null) {
 			return false;
 		}
@@ -101,6 +117,13 @@ public abstract class AbstractCoordinate implements Coordinate {
 		if(obj == this) {
 			return true;
 		}
+		
+		assertClassInvariants();
 		return this.isEqual((Coordinate) obj);
+	}
+	
+	
+	protected void assertClassInvariants() {
+		
 	}
 }
