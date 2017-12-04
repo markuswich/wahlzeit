@@ -43,6 +43,15 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double y = thisSpheric.getRadius() * Math.sin(Math.toRadians(thisSpheric.getLatitude())) * Math.sin(Math.toRadians(thisSpheric.getLongitude()));
 		double z = thisSpheric.getRadius() * Math.cos(Math.toRadians(thisSpheric.getLongitude()));
 		
+		//postconditions
+		assert(!Double.isNaN(x)) : "x can not be NaN";
+		assert(!Double.isNaN(y)) : "y can not be NaN";
+		assert(!Double.isNaN(z)) : "z can not be NaN";
+		
+		assert(!Double.isInfinite(x)) : "x can not be infinite";
+		assert(!Double.isInfinite(y)) : "y can not be infinite";
+		assert(!Double.isInfinite(z)) : "z can not be infinite";
+		
 		assertClassInvariants();
 		return new CartesianCoordinate(x, y, z);
 	}
@@ -61,8 +70,13 @@ public abstract class AbstractCoordinate implements Coordinate {
 						Math.pow(thisCartesian.getY() - cartesian.getY(), 2) + 
 						Math.pow(thisCartesian.getZ() - cartesian.getZ(), 2);
 		
+		double distance = Math.sqrt(inRoot);
+		
+		//postconditions
+		assert(distance >= 0) : "distance must be bigger or equal to zero";
+		
 		assertClassInvariants();
-		return Math.sqrt(inRoot);
+		return distance;
 	}
 	
 	@Override
@@ -81,6 +95,16 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double theta = Math.toDegrees(Math.acos(thisCartesian.getZ() / r));
 		double phi = Math.toDegrees(Math.atan(thisCartesian.getY() / thisCartesian.getX()));
 		
+		//postconditions
+		assert(!Double.isNaN(theta)) : "latitude can not be NaN";
+		assert(!Double.isNaN(phi)) : "longitude can not be NaN";
+		assert(!Double.isNaN(r)) : "radius can not be NaN";
+		
+		assert(-90 <= theta && theta <= 90) : "latitude must be between -90 and 90 (inclusive)";
+		assert(-180 <= phi && phi <= 180) : "longitude must be between -180 and 180 (inclusive)";
+		assert(0 <= r) : "radius must be bigger or equal to zero";
+		assert(!Double.isInfinite(r)) : "radius can not be infinite";
+		
 		assertClassInvariants();
 		return new SphericCoordinate(theta, phi, r);
 	}
@@ -95,10 +119,16 @@ public abstract class AbstractCoordinate implements Coordinate {
 		SphericCoordinate thisSpheric = this.asSphericCoordinate();
 		SphericCoordinate spheric = coord.asSphericCoordinate();
 		
-		assertClassInvariants();
-		return Math.sqrt(Math.pow(thisSpheric.getRadius(), 2) + Math.pow(spheric.getRadius(), 2) - 2 * thisSpheric.getRadius() * spheric.getRadius() * 
+		
+		double distance = Math.sqrt(Math.pow(thisSpheric.getRadius(), 2) + Math.pow(spheric.getRadius(), 2) - 2 * thisSpheric.getRadius() * spheric.getRadius() * 
 				(Math.sin(Math.toRadians(thisSpheric.getLatitude())) * Math.sin(Math.toRadians(spheric.getLatitude())) * Math.cos(Math.toRadians(thisSpheric.getLongitude() - spheric.getLongitude())) + 
 						Math.cos(Math.toRadians(thisSpheric.getLatitude())) * Math.cos(Math.toRadians(spheric.getLatitude()))));
+		
+		//postconditions
+		assert(distance >= 0) : "distance must be bigger or equal to zero";
+		
+		assertClassInvariants();
+		return distance;
 	}
 	
 	@Override
@@ -106,8 +136,13 @@ public abstract class AbstractCoordinate implements Coordinate {
 		//preconditions
 		assert(coord != null) : "The given coordinate can not be null";
 		
+		double distance = this.asCartesianCoordinate().getCartesianDistance(coord);
+		
+		//postconditions
+		assert(distance >= 0) : "distance must be bigger or equal to zero";
+		
 		assertClassInvariants();
-		return this.asCartesianCoordinate().getCartesianDistance(coord);
+		return distance;
 	}
 	
 	@Override
