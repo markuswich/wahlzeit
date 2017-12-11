@@ -1,8 +1,8 @@
 /*
- * Interfacename: Coordinate
+ * Exceptionname: ConversionException
  *
- * Date: 19.11.17
- * 
+ * Date: 10.12.17
+ *
  * This file is part of the Wahlzeit photo rating application.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,13 @@
 
 package org.wahlzeit.model;
 
-
-public interface Coordinate {
+public class ConversionException extends Exception {
 	
-	public CartesianCoordinate asCartesianCoordinate() throws ConversionException;
-	public double getCartesianDistance(Coordinate coord) throws ConversionException;
-	public SphericCoordinate asSphericCoordinate() throws ConversionException;
-	public double getSphericDistance(Coordinate coord) throws ConversionException;
-	public double getDistance(Coordinate coord) throws ConversionException;
-	public boolean isEqual(Coordinate coord) throws ConversionException;
-}
+     public ConversionException(String message) {
+         super(message);
+     }
+     
+     public ConversionException(String message, Throwable cause) {
+    	 super(message, cause);
+     }
+ }

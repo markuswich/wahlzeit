@@ -30,6 +30,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+
 
 public class CartesianCoordinateTest {
 	
@@ -106,8 +108,12 @@ public class CartesianCoordinateTest {
 	
 	@Test
 	public void testAsCartesianCoordinate() {
-		assertTrue(coord1.isEqual(coord1.asCartesianCoordinate()));
-		assertTrue(coord1.isEqual(coord8.asCartesianCoordinate()));
+		try {
+			assertTrue(coord1.isEqual(coord1.asCartesianCoordinate()));
+			assertTrue(coord1.isEqual(coord8.asCartesianCoordinate()));
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 		/**CartesianCoordinate cartesian = new SphericCoordinate(74.904479155789, 30.904855467356, 9.1955750228031).asCartesianCoordinate();
 		
 		assertEquals(cartesian.getX(), 1.23, 0.01);
@@ -121,46 +127,66 @@ public class CartesianCoordinateTest {
 	
 	@Test
 	public void testGetCartesianDistance() {
-		assertEquals(coord3.getCartesianDistance(coord4), 15.5563491861, EPSILON);
-		
-		assertEquals(zero.getCartesianDistance(coord5), 2, EPSILON);
-		assertEquals(zero.getCartesianDistance(coord6), 3, EPSILON);
-		assertEquals(zero.getCartesianDistance(coord7), 4, EPSILON);
+		try {
+			assertEquals(coord3.getCartesianDistance(coord4), 15.5563491861, EPSILON);
+			
+			assertEquals(zero.getCartesianDistance(coord5), 2, EPSILON);
+			assertEquals(zero.getCartesianDistance(coord6), 3, EPSILON);
+			assertEquals(zero.getCartesianDistance(coord7), 4, EPSILON);
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 	}
 	
 	@Test
 	public void testAsSphericCoordinate() {
-		SphericCoordinate spheric = coord1.asSphericCoordinate();
-		
-		assertEquals(spheric.getLatitude(), 30.904855467355684, EPSILON);
-		assertEquals(spheric.getLongitude(), 74.9044791557889, EPSILON);
-		assertEquals(spheric.getRadius(), 9.195575022803087, EPSILON);
-		
-		System.out.println(spheric.getLatitude());
-		System.out.println(spheric.getLongitude());
-		System.out.println(spheric.getRadius());
+		try {
+			SphericCoordinate spheric = coord1.asSphericCoordinate();
+			
+			assertEquals(spheric.getLatitude(), 30.904855467355684, EPSILON);
+			assertEquals(spheric.getLongitude(), 74.9044791557889, EPSILON);
+			assertEquals(spheric.getRadius(), 9.195575022803087, EPSILON);
+			
+			System.out.println(spheric.getLatitude());
+			System.out.println(spheric.getLongitude());
+			System.out.println(spheric.getRadius());
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 	}
 	
 	@Test
 	public void testGetSphericDistance() {
-		assertEquals(a.getSphericDistance(b), 11.28, 0.01);
+		try {
+			assertEquals(a.getSphericDistance(b), 11.28, 0.01);
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 	}
 	
 	@Test
 	public void testGetDistance() {
-		assertEquals(coord3.getCartesianDistance(coord4), 15.5563491861, EPSILON);
-		
-		assertEquals(zero.getCartesianDistance(coord5), 2, EPSILON);
-		assertEquals(zero.getCartesianDistance(coord6), 3, EPSILON);
-		assertEquals(zero.getCartesianDistance(coord7), 4, EPSILON);
+		try {
+			assertEquals(coord3.getCartesianDistance(coord4), 15.5563491861, EPSILON);
+			
+			assertEquals(zero.getCartesianDistance(coord5), 2, EPSILON);
+			assertEquals(zero.getCartesianDistance(coord6), 3, EPSILON);
+			assertEquals(zero.getCartesianDistance(coord7), 4, EPSILON);
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 	}
 	
 	@Test
 	public void testIsEqual() {
-		assertTrue(zero.isEqual(zero));
-		assertTrue(coord1.isEqual(coord8));
-		
-		assertFalse(zero.isEqual(coord1));
+		try {
+			assertTrue(zero.isEqual(zero));
+			assertTrue(coord1.isEqual(coord8));
+			
+			assertFalse(zero.isEqual(coord1));
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 	}
 	
 	
@@ -177,9 +203,13 @@ public class CartesianCoordinateTest {
 	}
 	
 	
-	@Test(expected = java.lang.AssertionError.class) 
+	@Test(expected = java.lang.IllegalArgumentException.class) 
 	public void testIsEqualException() { 
-		zero.isEqual(null);
+		try {
+			zero.isEqual(null);
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 	}
 	
 	

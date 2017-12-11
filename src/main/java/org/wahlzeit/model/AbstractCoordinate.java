@@ -22,44 +22,45 @@
 
 package org.wahlzeit.model;
 
+
 public abstract class AbstractCoordinate implements Coordinate {
 	
 	protected static final double EPSILON = 0.0000001;
 
 	
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
-		assertClassInvariants();
-		
-		if (this instanceof CartesianCoordinate) {
-			CartesianCoordinate thisCartesian = (CartesianCoordinate) this;
+	public CartesianCoordinate asCartesianCoordinate() throws IllegalArgumentException, ConversionException {
+		try {
+			assertClassInvariants();
 			
-			return new CartesianCoordinate(thisCartesian.getX(), thisCartesian.getY(), thisCartesian.getZ());
+			if (this instanceof CartesianCoordinate) {
+				CartesianCoordinate thisCartesian = (CartesianCoordinate) this;
+				
+				return new CartesianCoordinate(thisCartesian.getX(), thisCartesian.getY(), thisCartesian.getZ());
+			}
+			
+			SphericCoordinate thisSpheric = (SphericCoordinate) this;
+			
+			double x = thisSpheric.getRadius() * Math.sin(Math.toRadians(thisSpheric.getLongitude())) * Math.cos(Math.toRadians(thisSpheric.getLatitude()));
+			double y = thisSpheric.getRadius() * Math.sin(Math.toRadians(thisSpheric.getLatitude())) * Math.sin(Math.toRadians(thisSpheric.getLongitude()));
+			double z = thisSpheric.getRadius() * Math.cos(Math.toRadians(thisSpheric.getLongitude()));
+			
+			//postconditions
+			assertDoubleValid(x);
+			assertDoubleValid(y);
+			assertDoubleValid(z);
+			
+			assertClassInvariants();
+			return new CartesianCoordinate(x, y, z);
+		} catch(IllegalArgumentException | AssertionError e) {
+			throw new ConversionException("Could not convert coordinate to cartesian coordinate", e);
 		}
-		
-		SphericCoordinate thisSpheric = (SphericCoordinate) this;
-		
-		double x = thisSpheric.getRadius() * Math.sin(Math.toRadians(thisSpheric.getLongitude())) * Math.cos(Math.toRadians(thisSpheric.getLatitude()));
-		double y = thisSpheric.getRadius() * Math.sin(Math.toRadians(thisSpheric.getLatitude())) * Math.sin(Math.toRadians(thisSpheric.getLongitude()));
-		double z = thisSpheric.getRadius() * Math.cos(Math.toRadians(thisSpheric.getLongitude()));
-		
-		//postconditions
-		assert(!Double.isNaN(x)) : "x can not be NaN";
-		assert(!Double.isNaN(y)) : "y can not be NaN";
-		assert(!Double.isNaN(z)) : "z can not be NaN";
-		
-		assert(!Double.isInfinite(x)) : "x can not be infinite";
-		assert(!Double.isInfinite(y)) : "y can not be infinite";
-		assert(!Double.isInfinite(z)) : "z can not be infinite";
-		
-		assertClassInvariants();
-		return new CartesianCoordinate(x, y, z);
 	}
 	
 	@Override
-	public double getCartesianDistance(Coordinate coord) {
+	public double getCartesianDistance(Coordinate coord) throws IllegalArgumentException, ConversionException {
 		//preconditions
-		assert(coord != null) : "The given coordinate can not be null";
+		assertCoordinateNotNull(coord);
 		
 		assertClassInvariants();
 		
@@ -73,47 +74,50 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double distance = Math.sqrt(inRoot);
 		
 		//postconditions
-		assert(distance >= 0) : "distance must be bigger or equal to zero";
+		assertDoubleInRange(distance, 0, Double.MAX_VALUE);
 		
 		assertClassInvariants();
 		return distance;
 	}
 	
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
-		assertClassInvariants();
+	public SphericCoordinate asSphericCoordinate() throws IllegalArgumentException, ConversionException {
+		try {
+			assertClassInvariants();
 		
-		if (this instanceof SphericCoordinate) {
-			SphericCoordinate thisSpheric = (SphericCoordinate) this;
+			if (this instanceof SphericCoordinate) {
+				SphericCoordinate thisSpheric = (SphericCoordinate) this;
+				
+				return new SphericCoordinate(thisSpheric.getLatitude(), thisSpheric.getLongitude(), thisSpheric.getRadius());
+			}
 			
-			return new SphericCoordinate(thisSpheric.getLatitude(), thisSpheric.getLongitude(), thisSpheric.getRadius());
+			CartesianCoordinate thisCartesian = (CartesianCoordinate) this;
+			
+			double r = Math.sqrt(Math.pow(thisCartesian.getX(), 2) + Math.pow(thisCartesian.getY(), 2) + Math.pow(thisCartesian.getZ(), 2));
+			double theta = Math.toDegrees(Math.acos(thisCartesian.getZ() / r));
+			double phi = Math.toDegrees(Math.atan(thisCartesian.getY() / thisCartesian.getX()));
+			
+			//postconditions
+			assertDoubleValid(theta);
+			assertDoubleValid(phi);
+			assertDoubleValid(r);
+			
+			assertDoubleInRange(theta, -90, 90);
+			assertDoubleInRange(phi, -180, 180);
+			assertDoubleInRange(r, 0, Double.MAX_VALUE);
+			
+			assertClassInvariants();
+			return new SphericCoordinate(theta, phi, r);
+		} catch(IllegalArgumentException | AssertionError e) {
+			throw new ConversionException("Could not convert coordinate to spheric coordinate", e);
 		}
-		
-		CartesianCoordinate thisCartesian = (CartesianCoordinate) this;
-		
-		double r = Math.sqrt(Math.pow(thisCartesian.getX(), 2) + Math.pow(thisCartesian.getY(), 2) + Math.pow(thisCartesian.getZ(), 2));
-		double theta = Math.toDegrees(Math.acos(thisCartesian.getZ() / r));
-		double phi = Math.toDegrees(Math.atan(thisCartesian.getY() / thisCartesian.getX()));
-		
-		//postconditions
-		assert(!Double.isNaN(theta)) : "latitude can not be NaN";
-		assert(!Double.isNaN(phi)) : "longitude can not be NaN";
-		assert(!Double.isNaN(r)) : "radius can not be NaN";
-		
-		assert(-90 <= theta && theta <= 90) : "latitude must be between -90 and 90 (inclusive)";
-		assert(-180 <= phi && phi <= 180) : "longitude must be between -180 and 180 (inclusive)";
-		assert(0 <= r) : "radius must be bigger or equal to zero";
-		assert(!Double.isInfinite(r)) : "radius can not be infinite";
-		
-		assertClassInvariants();
-		return new SphericCoordinate(theta, phi, r);
 	}
 	
 	@Override
-	public double getSphericDistance(Coordinate coord) {
+	public double getSphericDistance(Coordinate coord) throws IllegalArgumentException, ConversionException {
 		//preconditions
-		assert(coord != null) : "The given coordinate can not be null";
-			
+		assertCoordinateNotNull(coord);
+		
 		assertClassInvariants();
 		
 		SphericCoordinate thisSpheric = this.asSphericCoordinate();
@@ -125,28 +129,30 @@ public abstract class AbstractCoordinate implements Coordinate {
 						Math.cos(Math.toRadians(thisSpheric.getLatitude())) * Math.cos(Math.toRadians(spheric.getLatitude()))));
 		
 		//postconditions
-		assert(distance >= 0) : "distance must be bigger or equal to zero";
+		assertDoubleValid(distance);
+		assertDoubleInRange(distance, 0, Double.MAX_VALUE);
 		
 		assertClassInvariants();
 		return distance;
 	}
 	
 	@Override
-	public double getDistance(Coordinate coord) {
+	public double getDistance(Coordinate coord) throws IllegalArgumentException, ConversionException {
 		//preconditions
-		assert(coord != null) : "The given coordinate can not be null";
+		assertCoordinateNotNull(coord);
 		
 		double distance = this.asCartesianCoordinate().getCartesianDistance(coord);
 		
 		//postconditions
-		assert(distance >= 0) : "distance must be bigger or equal to zero";
+		assertDoubleValid(distance);
+		assertDoubleInRange(distance, 0, Double.MAX_VALUE);
 		
 		assertClassInvariants();
 		return distance;
 	}
 	
 	@Override
-	public abstract boolean isEqual(Coordinate coord);
+	public abstract boolean isEqual(Coordinate coord) throws ConversionException;
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -163,11 +169,37 @@ public abstract class AbstractCoordinate implements Coordinate {
 		}
 		
 		assertClassInvariants();
-		return this.isEqual((Coordinate) obj);
+		try {
+			return this.isEqual((Coordinate) obj);
+		} catch(ConversionException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	
 	protected void assertClassInvariants() {
 		
+	}
+	
+	protected void assertCoordinateNotNull(Coordinate coord) throws IllegalArgumentException {
+        if (coord == null) {
+            throw new IllegalArgumentException("The given coordinate can not be null.");
+        }
+	}
+	
+	protected void assertDoubleValid(double num) throws IllegalArgumentException {
+		if(Double.isNaN(num)) {
+			throw new IllegalArgumentException("The given double can not be NaN");
+		}
+		if(Double.isInfinite(num)) {
+			throw new IllegalArgumentException("The given double can not be infinite");
+		}
+	}
+	
+	protected void assertDoubleInRange(double val, double min, double max) throws IllegalArgumentException {
+		if(!(min <= val && val <= max)) {
+			throw new IllegalArgumentException("The given double " + val + " must be between " + min + " and " + max);
+		}
 	}
 }

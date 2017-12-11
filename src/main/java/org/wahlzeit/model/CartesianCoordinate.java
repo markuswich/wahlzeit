@@ -33,7 +33,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	private double y = 0.0;
 	private double z = 0.0;
 	
-	public CartesianCoordinate(double x, double y, double z) {
+	public CartesianCoordinate(double x, double y, double z) throws IllegalArgumentException {
+		assertDoubleValid(x);
+		assertDoubleValid(y);
+		assertDoubleValid(z);
+		
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -43,9 +47,9 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	
 	
 	@Override
-	public boolean isEqual(Coordinate coord) {
+	public boolean isEqual(Coordinate coord) throws ConversionException {
 		//preconditions
-		assert(coord != null) : "The given coordinate can not be null";
+		assertCoordinateNotNull(coord);
 		
 		this.assertClassInvariants();
 		
@@ -87,42 +91,42 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 	
 	
-	public void setX(double x) {
+	public void setX(double x) throws IllegalArgumentException {
 		//preconditions
-		assert(!Double.isNaN(x)) : "x can not be NaN";
-		assert(!Double.isInfinite(x)) : "x can not be infinite";
+		assertDoubleValid(x);
 		
 		this.assertClassInvariants();
 		this.x = x;
+		this.assertClassInvariants();
 	}
 	
-	public void setY(double y) {
+	public void setY(double y) throws IllegalArgumentException {
 		//preconditions
-		assert(!Double.isNaN(y)) : "y can not be NaN";
-		assert(!Double.isInfinite(y)) : "y can not be infinite";
+		assertDoubleValid(y);
 		
 		this.assertClassInvariants();
 		this.y = y;
+		this.assertClassInvariants();
 	}
 	
-	public void setZ(double z) {
+	public void setZ(double z) throws IllegalArgumentException {
 		//preconditions
-		assert(!Double.isNaN(z)) : "z can not be NaN";
-		assert(!Double.isInfinite(z)) : "z can not be infinite";
+		assertDoubleValid(z);
 		
 		this.assertClassInvariants();
 		this.z = z;
+		this.assertClassInvariants();
 	}
 	
 	@Override
 	protected void assertClassInvariants() {
-		assert(!Double.isNaN(x)) : "x can not be NaN";
-		assert(!Double.isNaN(y)) : "y can not be NaN";
-		assert(!Double.isNaN(z)) : "z can not be NaN";
-		
-		assert(!Double.isInfinite(x)) : "x can not be infinite";
-		assert(!Double.isInfinite(y)) : "y can not be infinite";
-		assert(!Double.isInfinite(z)) : "z can not be infinite";
+		try {
+			assertDoubleValid(x);
+			assertDoubleValid(y);
+			assertDoubleValid(z);
+		} catch(IllegalArgumentException exp) {
+			throw new AssertionError(exp.getMessage());
+		}
 	}
 	
 }

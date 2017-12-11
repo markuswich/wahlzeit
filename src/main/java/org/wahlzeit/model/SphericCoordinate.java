@@ -43,9 +43,9 @@ public class SphericCoordinate extends AbstractCoordinate {
 	
 	
 	@Override
-	public boolean isEqual(Coordinate coord) {
+	public boolean isEqual(Coordinate coord) throws IllegalArgumentException, ConversionException {
 		//preconditions
-		assert(coord != null) : "The given coordinate can not be null";
+		assertCoordinateNotNull(coord);
 		
 		this.assertClassInvariants();
 		
@@ -83,44 +83,49 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 	
 	
-	public void setLatitude(double latitude) {
+	public void setLatitude(double latitude) throws IllegalArgumentException {
 		//preconditions
-		assert(!Double.isNaN(latitude)) : "latitude can not be NaN";
-		assert(-90 <= latitude && latitude <= 90) : "latitude must be between -90 and 90 (inclusive)";
+		assertDoubleValid(latitude);
+		assertDoubleInRange(latitude, -90, 90);
 		
 		this.assertClassInvariants();
 		this.latitude = latitude;
+		this.assertClassInvariants();
 	}
 	
-	public void setLongitude(double longitude) {
+	public void setLongitude(double longitude) throws IllegalArgumentException {
 		//preconditions
-		assert(!Double.isNaN(longitude)) : "longitude can not be NaN";
-		assert(-180 <= longitude && longitude <= 180) : "longitude must be between -180 and 180 (inclusive)";
+		assertDoubleValid(longitude);
+		assertDoubleInRange(longitude, -180, 180);
 		
 		this.assertClassInvariants();
 		this.longitude = longitude;
+		this.assertClassInvariants();
 	}
 	
-	public void setRadius(double radius) {
+	public void setRadius(double radius) throws IllegalArgumentException {
 		//preconditions
-		assert(!Double.isNaN(radius)) : "radius can not be NaN";
-		assert(0 <= radius) : "radius must be bigger or equal to zero";
-		assert(!Double.isInfinite(radius)) : "radius can not be infinite";
+		assertDoubleValid(radius);
+		assertDoubleInRange(radius, 0, Double.MAX_VALUE);
 		
 		this.assertClassInvariants();
 		this.radius = radius;
+		this.assertClassInvariants();
 	}
 	
 	@Override
-	protected void assertClassInvariants() {
-		assert(!Double.isNaN(latitude)) : "latitude can not be NaN";
-		assert(!Double.isNaN(longitude)) : "longitude can not be NaN";
-		assert(!Double.isNaN(radius)) : "radius can not be NaN";
-		
-		assert(-90 <= latitude && latitude <= 90) : "latitude must be between -90 and 90 (inclusive)";
-		assert(-180 <= longitude && longitude <= 180) : "longitude must be between -180 and 180 (inclusive)";
-		assert(0 <= radius) : "radius must be bigger or equal to zero";
-		assert(!Double.isInfinite(radius)) : "radius can not be infinite";
+	protected void assertClassInvariants() throws IllegalArgumentException {
+		try {
+			assertDoubleValid(latitude);
+			assertDoubleValid(longitude);
+			assertDoubleValid(radius);
+			
+			assertDoubleInRange(latitude, -90, 90);
+			assertDoubleInRange(longitude, -180, 180);
+			assertDoubleInRange(radius, 0, Double.MAX_VALUE);
+		} catch(IllegalArgumentException e) {
+			throw new AssertionError(e.getMessage());
+		}
 	}
 	
 }

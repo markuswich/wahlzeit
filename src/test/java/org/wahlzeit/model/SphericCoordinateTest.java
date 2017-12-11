@@ -30,6 +30,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+
 
 public class SphericCoordinateTest {
 	
@@ -91,12 +93,15 @@ public class SphericCoordinateTest {
 	
 	@Test
 	public void testAsCartesianCoordinate() {
-		CartesianCoordinate cartesian = coord8.asCartesianCoordinate();
-		
-		assertEquals(cartesian.getX(), 1.23, 0.01);
-		assertEquals(cartesian.getY(), 4.56, 0.01);
-		assertEquals(cartesian.getZ(), 7.89, 0.01);
-		
+		try {
+			CartesianCoordinate cartesian = coord8.asCartesianCoordinate();
+			
+			assertEquals(cartesian.getX(), 1.23, 0.01);
+			assertEquals(cartesian.getY(), 4.56, 0.01);
+			assertEquals(cartesian.getZ(), 7.89, 0.01);
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 	}
 	
 	@Test
@@ -107,13 +112,21 @@ public class SphericCoordinateTest {
 	
 	@Test
 	public void testAsSphericCoordinate() {
-		assertTrue(coord1.isEqual(coord1.asSphericCoordinate()));
-		assertTrue(coord1.isEqual(coord8.asSphericCoordinate()));
+		try {
+			assertTrue(coord1.isEqual(coord1.asSphericCoordinate()));
+			assertTrue(coord1.isEqual(coord8.asSphericCoordinate()));
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 	}
 	
 	@Test
 	public void testGetSphericDistance() {
-		assertEquals(a.getSphericDistance(b), 11.28, 0.01);
+		try {
+			assertEquals(a.getSphericDistance(b), 11.28, 0.01);
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 	}
 	
 	@Test
@@ -143,9 +156,13 @@ public class SphericCoordinateTest {
 		assertFalse(coord1.equals(new Object()));
 	}
 	
-	@Test(expected = java.lang.AssertionError.class) 
-	public void testIsEqualException() { 
-		coord1.isEqual(null);
+	@Test(expected = java.lang.IllegalArgumentException.class) 
+	public void testIsEqualException() {
+		try {
+			coord1.isEqual(null);
+		} catch (ConversionException e) {
+			fail("ConversionException");
+		}
 	}
 	
 	@Test

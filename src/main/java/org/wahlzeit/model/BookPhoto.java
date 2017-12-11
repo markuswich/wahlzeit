@@ -39,10 +39,11 @@ public class BookPhoto extends Photo {
 		super(myId);
 	}
 	
-	public void addAuthor(String author) {
-		if(author != null && !author.isEmpty()) {
-			this.authors.add(author);
+	public void addAuthor(String author) throws IllegalArgumentException {
+		if(author == null || author.isEmpty()) {
+			throw new IllegalArgumentException(author + " is an invalid author name");
 		}
+		this.authors.add(author);
 	}
 	
 	public void removeAuthor(String author) {
@@ -53,7 +54,10 @@ public class BookPhoto extends Photo {
 		return this.authors;
 	}
 	
-	public void setPublisher(String publisher) {
+	public void setPublisher(String publisher) throws IllegalArgumentException { 
+		if(publisher == null || publisher.isEmpty()){
+			throw new IllegalArgumentException(publisher + " is an invalid publisher name");
+		}
 		this.publisher = publisher;
 	}
 	
