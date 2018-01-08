@@ -36,7 +36,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 			if (this instanceof CartesianCoordinate) {
 				CartesianCoordinate thisCartesian = (CartesianCoordinate) this;
 				
-				return new CartesianCoordinate(thisCartesian.getX(), thisCartesian.getY(), thisCartesian.getZ());
+				return CartesianCoordinate.getInstance(thisCartesian.getX(), thisCartesian.getY(), thisCartesian.getZ());
 			}
 			
 			SphericCoordinate thisSpheric = (SphericCoordinate) this;
@@ -51,7 +51,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 			assertDoubleValid(z);
 			
 			assertClassInvariants();
-			return new CartesianCoordinate(x, y, z);
+			return CartesianCoordinate.getInstance(x, y, z);
 		} catch(IllegalArgumentException | AssertionError e) {
 			throw new ConversionException("Could not convert coordinate to cartesian coordinate", e);
 		}
@@ -88,7 +88,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 			if (this instanceof SphericCoordinate) {
 				SphericCoordinate thisSpheric = (SphericCoordinate) this;
 				
-				return new SphericCoordinate(thisSpheric.getLatitude(), thisSpheric.getLongitude(), thisSpheric.getRadius());
+				return SphericCoordinate.getInstance(thisSpheric.getLatitude(), thisSpheric.getLongitude(), thisSpheric.getRadius());
 			}
 			
 			CartesianCoordinate thisCartesian = (CartesianCoordinate) this;
@@ -107,7 +107,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 			assertDoubleInRange(r, 0, Double.MAX_VALUE);
 			
 			assertClassInvariants();
-			return new SphericCoordinate(theta, phi, r);
+			return SphericCoordinate.getInstance(theta, phi, r);
 		} catch(IllegalArgumentException | AssertionError e) {
 			throw new ConversionException("Could not convert coordinate to spheric coordinate", e);
 		}

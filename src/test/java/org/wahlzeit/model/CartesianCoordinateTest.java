@@ -52,20 +52,20 @@ public class CartesianCoordinateTest {
 	
 	@Before
 	public void setUp() {
-		zero = new CartesianCoordinate(0.0, 0.0, 0.0);
-		coord1 = new CartesianCoordinate(1.23, 4.56, 7.89);
-		coord2 = new CartesianCoordinate(0.0, 0.0, 0.0);
-		coord3 = new CartesianCoordinate(10, 4, 3);
-		coord4 = new CartesianCoordinate(-2, -3, -4);
+		zero = CartesianCoordinate.getInstance(0.0, 0.0, 0.0);
+		coord1 = CartesianCoordinate.getInstance(1.23, 4.56, 7.89);
+		coord2 = CartesianCoordinate.getInstance(0.0, 0.0, 0.0);
+		coord3 = CartesianCoordinate.getInstance(10, 4, 3);
+		coord4 = CartesianCoordinate.getInstance(-2, -3, -4);
 		
-		coord5 = new CartesianCoordinate(2, 0, 0);
-		coord6 = new CartesianCoordinate(0, 3, 0);
-		coord7 = new CartesianCoordinate(0, 0, 4);
+		coord5 = CartesianCoordinate.getInstance(2, 0, 0);
+		coord6 = CartesianCoordinate.getInstance(0, 3, 0);
+		coord7 = CartesianCoordinate.getInstance(0, 0, 4);
 		
-		coord8 = new CartesianCoordinate(1.23, 4.56, 7.89);
+		coord8 = CartesianCoordinate.getInstance(1.23, 4.56, 7.89);
 		
-		a = new SphericCoordinate(-45, 0, 9);
-		b = new SphericCoordinate(70, 0, 4);
+		a = SphericCoordinate.getInstance(-45, 0, 9);
+		b = SphericCoordinate.getInstance(70, 0, 4);
     }
 	
 	@Test
@@ -92,19 +92,7 @@ public class CartesianCoordinateTest {
 		assertEquals(coord1.getZ(), 7.89, EPSILON);
 	}
 	
-	
-	@Test
-	public void testSetter() {
-		coord2.setX(3);
-		coord2.setY(2);
-		coord2.setZ(1);
-		
-		
-		assertEquals(coord2.getX(), 3, EPSILON);
-		assertEquals(coord2.getY(), 2, EPSILON);
-		assertEquals(coord2.getZ(), 1, EPSILON);
-	}
-	
+
 	
 	@Test
 	public void testAsCartesianCoordinate() {

@@ -24,16 +24,19 @@ package org.wahlzeit.model;
 
 import java.lang.Math;
 import java.util.Objects;
+import java.util.HashMap;
 
 
 public class CartesianCoordinate extends AbstractCoordinate {
 	
 	
-	private double x = 0.0;
-	private double y = 0.0;
-	private double z = 0.0;
+	private final double x;
+	private final double y;
+	private final double z;
 	
-	public CartesianCoordinate(double x, double y, double z) throws IllegalArgumentException {
+	private static final HashMap<Integer, CartesianCoordinate> instances = new HashMap<Integer, CartesianCoordinate>();
+	
+	private CartesianCoordinate(double x, double y, double z) throws IllegalArgumentException {
 		assertDoubleValid(x);
 		assertDoubleValid(y);
 		assertDoubleValid(z);
@@ -45,6 +48,21 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.assertClassInvariants();
 	}
 	
+	public static CartesianCoordinate getInstance(double x, double y, double z) {
+		CartesianCoordinate res;
+		synchronized(instances) {
+			int hash = Objects.hash(x, y, z);
+			
+			if(instances.containsKey(hash)){
+				res = instances.get(hash);
+				return res;
+			} else {
+				res = new CartesianCoordinate(x, y, z);
+				instances.put(hash, res);
+				return res;
+			}
+		}
+	}
 	
 	@Override
 	public boolean isEqual(Coordinate coord) throws ConversionException {
@@ -71,10 +89,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 	
 	
-	
-	
-	
-	
 	public double getX() {
 		this.assertClassInvariants();
 		return x;
@@ -88,34 +102,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	public double getZ() {
 		this.assertClassInvariants();
 		return z;
-	}
-	
-	
-	public void setX(double x) throws IllegalArgumentException {
-		//preconditions
-		assertDoubleValid(x);
-		
-		this.assertClassInvariants();
-		this.x = x;
-		this.assertClassInvariants();
-	}
-	
-	public void setY(double y) throws IllegalArgumentException {
-		//preconditions
-		assertDoubleValid(y);
-		
-		this.assertClassInvariants();
-		this.y = y;
-		this.assertClassInvariants();
-	}
-	
-	public void setZ(double z) throws IllegalArgumentException {
-		//preconditions
-		assertDoubleValid(z);
-		
-		this.assertClassInvariants();
-		this.z = z;
-		this.assertClassInvariants();
 	}
 	
 	@Override

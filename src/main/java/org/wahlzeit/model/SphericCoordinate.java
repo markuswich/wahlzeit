@@ -24,21 +24,40 @@ package org.wahlzeit.model;
 
 import java.lang.Math;
 import java.util.Objects;
+import java.util.HashMap;
 
 
 public class SphericCoordinate extends AbstractCoordinate {
 	
 	
-	private double latitude = 0.0;
-	private double longitude = 0.0;
-	private double radius = 0.0;
+	private final double latitude;
+	private final double longitude;
+	private final double radius;
+	private static final HashMap<Integer, SphericCoordinate> instances = new HashMap<Integer, SphericCoordinate>();
+
 	
-	public SphericCoordinate(double latitude, double longitude, double radius) {
+	private SphericCoordinate(double latitude, double longitude, double radius) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.radius = radius;
 		
 		this.assertClassInvariants();
+	}
+	
+	public static SphericCoordinate getInstance(double latitude, double longitude, double radius) {
+		SphericCoordinate res;
+		synchronized(instances) {
+			int hash = Objects.hash(latitude, longitude, radius);
+			
+			if(instances.containsKey(hash)){
+				res = instances.get(hash);
+				return res;
+			} else {
+				res = new SphericCoordinate(latitude, longitude, radius);
+				instances.put(hash, res);
+				return res;
+			}
+		}
 	}
 	
 	
@@ -80,37 +99,6 @@ public class SphericCoordinate extends AbstractCoordinate {
 	public double getRadius() {
 		this.assertClassInvariants();
 		return radius;
-	}
-	
-	
-	public void setLatitude(double latitude) throws IllegalArgumentException {
-		//preconditions
-		assertDoubleValid(latitude);
-		assertDoubleInRange(latitude, -90, 90);
-		
-		this.assertClassInvariants();
-		this.latitude = latitude;
-		this.assertClassInvariants();
-	}
-	
-	public void setLongitude(double longitude) throws IllegalArgumentException {
-		//preconditions
-		assertDoubleValid(longitude);
-		assertDoubleInRange(longitude, -180, 180);
-		
-		this.assertClassInvariants();
-		this.longitude = longitude;
-		this.assertClassInvariants();
-	}
-	
-	public void setRadius(double radius) throws IllegalArgumentException {
-		//preconditions
-		assertDoubleValid(radius);
-		assertDoubleInRange(radius, 0, Double.MAX_VALUE);
-		
-		this.assertClassInvariants();
-		this.radius = radius;
-		this.assertClassInvariants();
 	}
 	
 	@Override

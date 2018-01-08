@@ -47,15 +47,15 @@ public class SphericCoordinateTest {
 	
 	@Before
 	public void setUp() {
-		coord1 = new SphericCoordinate(74.904479155789, 30.904855467356, 9.1955750228031);
-		coord2 = new SphericCoordinate(0, 0, 0);
-		coord3 = new SphericCoordinate(21.80140948635, 74.435193338612, 11.180339887499);
+		coord1 = SphericCoordinate.getInstance(74.904479155789, 30.904855467356, 9.1955750228031);
+		coord2 = SphericCoordinate.getInstance(0, 0, 0);
+		coord3 = SphericCoordinate.getInstance(21.80140948635, 74.435193338612, 11.180339887499);
 		
 		
-		coord8 = new SphericCoordinate(74.904479155789, 30.904855467356, 9.1955750228031);
+		coord8 = SphericCoordinate.getInstance(74.904479155789, 30.904855467356, 9.1955750228031);
 		
-		a = new SphericCoordinate(-45, 0, 9);
-		b = new SphericCoordinate(70, 0, 4);
+		a = SphericCoordinate.getInstance(-45, 0, 9);
+		b = SphericCoordinate.getInstance(70, 0, 4);
     }
 	
 	@Test
@@ -75,19 +75,6 @@ public class SphericCoordinateTest {
 		assertEquals(coord1.getLatitude(), 74.904479155789, EPSILON);
 		assertEquals(coord1.getLongitude(), 30.904855467356, EPSILON);
 		assertEquals(coord1.getRadius(), 9.1955750228031, EPSILON);
-	}
-	
-	
-	@Test
-	public void testSetter() {
-		coord2.setLatitude(3);
-		coord2.setLongitude(2);
-		coord2.setRadius(1);
-		
-		
-		assertEquals(coord2.getLatitude(), 3, EPSILON);
-		assertEquals(coord2.getLongitude(), 2, EPSILON);
-		assertEquals(coord2.getRadius(), 1, EPSILON);
 	}
 	
 	

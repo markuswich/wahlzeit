@@ -38,7 +38,7 @@ public class LocationTest {
 	
 	@Before
 	public void setUp() {
-		coordinate = new CartesianCoordinate(0, 0, 0);
+		coordinate = CartesianCoordinate.getInstance(0, 0, 0);
 		location = new Location(coordinate);
 	}
 
