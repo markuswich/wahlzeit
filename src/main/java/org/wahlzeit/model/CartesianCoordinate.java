@@ -26,7 +26,13 @@ import java.lang.Math;
 import java.util.Objects;
 import java.util.HashMap;
 
+import org.wahlzeit.utils.PatternInstance;
 
+
+@PatternInstance (
+	patternName = "Template Method",
+	participants = {"Concrete Class"}
+)
 public class CartesianCoordinate extends AbstractCoordinate {
 	
 	

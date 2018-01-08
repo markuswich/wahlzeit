@@ -22,7 +22,13 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.PatternInstance;
 
+
+@PatternInstance (
+	patternName = "Template Method",
+	participants = {"Abstract Class"}
+)
 public abstract class AbstractCoordinate implements Coordinate {
 	
 	protected static final double EPSILON = 0.0000001;

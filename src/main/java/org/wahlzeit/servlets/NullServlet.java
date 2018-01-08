@@ -25,10 +25,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import org.wahlzeit.utils.PatternInstance;
 
 /**
  * A null servlet.
  */
+@PatternInstance(
+	patternName = "Null Object",
+	participants = {
+		"Null Object"
+	}
+)
 public class NullServlet extends AbstractServlet {
 
 	/**
