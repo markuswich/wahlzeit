@@ -44,37 +44,30 @@ public class BookPhotoTest {
 	@ClassRule
 	public static TestRule rule = RuleChain.outerRule(new LocalDatastoreServiceTestConfigProvider());
 	
-	
+	private Book book;
 	private BookPhoto photo;
+	
+	private BookPhoto photo2;
+
 	
 	@Before
 	public void setUp() {
-		photo = new BookPhoto();
+		book = new Book(null, "Test Title");
+		photo = new BookPhoto(book);
 	}
 
 	@Test
 	public void testConstructor() {
+		assertNotNull(book);
 		assertNotNull(photo);
-		
-		assertTrue(photo instanceof BookPhoto);
-		
-		assertEquals(photo.getAuthors().size(), 0);
-		assertTrue(photo.getPublisher() == null);
 	}
 	
 	@Test
 	public void testAccessorsAndMutators() {
-		photo.setPublisher("test");
-		assertEquals(photo.getPublisher(), "test");
+		assertEquals(photo.getBook(), book);
 		
-		photo.addAuthor("one");
-		photo.addAuthor("two");
-		photo.addAuthor("three");
-		
-		assertEquals(photo.getAuthors().size(), 3);
-		
-		assertTrue(photo.getAuthors().contains("one"));
-		assertTrue(photo.getAuthors().contains("two"));
-		assertTrue(photo.getAuthors().contains("three"));
+		photo2 = new BookPhoto();
+		photo2.setBook(book);
+		assertEquals(photo2.getBook(), book);
 	}
 }

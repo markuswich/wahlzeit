@@ -28,44 +28,28 @@ import java.util.*;
 
 public class BookPhoto extends Photo {
 	
-	private ArrayList<String> authors = new ArrayList<String>();
-	private String publisher = null;
+	private Book book;
 	
 	public BookPhoto() {
 		super();
+		book = null;
+	}
+	
+	public BookPhoto(Book book) {
+		super();
+		this.book = book;
 	}
 	
 	public BookPhoto(PhotoId myId) {
 		super(myId);
 	}
 	
-	public void addAuthor(String author) throws IllegalArgumentException {
-		if(author == null || author.isEmpty()) {
-			throw new IllegalArgumentException(author + " is an invalid author name");
-		}
-		this.authors.add(author);
+	public Book getBook() {
+		return this.book;
 	}
 	
-	public void removeAuthor(String author) {
-		this.authors.remove(author);
+	public void setBook(Book book) {
+		this.book = book;
 	}
-	
-	public ArrayList<String> getAuthors() {
-		return this.authors;
-	}
-	
-	public void setPublisher(String publisher) throws IllegalArgumentException { 
-		if(publisher == null || publisher.isEmpty()){
-			throw new IllegalArgumentException(publisher + " is an invalid publisher name");
-		}
-		this.publisher = publisher;
-	}
-	
-	public String getPublisher() {
-		return this.publisher;
-	}
-	
-	
-	
 	
 }
