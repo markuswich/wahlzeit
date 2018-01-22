@@ -20,6 +20,22 @@
  * <http://www.gnu.org/licenses/>.
  */
 
+
+/*
+ * Sequence of method calls that lead to the new object:
+ * 
+ * 1. BookManager.getInstance() (returns the Singleton instance of the BookManger Class, which is used to create Book instances)
+ * 2. BookManager.getInstance().createBook(BookType type, String title) (calls the constructor of the Book class)
+ * 
+ * Object creation solution:
+ * 1. Delegation: separate-object (delegated to BookManager)
+ * 2. Selection: on-the-spot (hard coded, because there is only one available class)
+ * 3. Configuration: N/A
+ * 4. Instantiation: in-code (Constructor gets called directly via new)
+ * 5. Initialization: by-fixed-signature (field assignment provided via fixed method signature)
+ * 6. Building: N/A
+ * 
+ */
 package org.wahlzeit.model;
 
 import org.wahlzeit.services.DataObject;

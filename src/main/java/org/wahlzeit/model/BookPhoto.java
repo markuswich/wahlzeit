@@ -20,6 +20,26 @@
  * <http://www.gnu.org/licenses/>.
  */
 
+
+/*
+ * Sequence of method calls that lead to the new object:
+ * 1. BookPhotoManager.getInstance() (returns the Singleton instance of the BookPhotoManager Class, which is used to create Photo instances)
+ * 2. call Method: createPhoto(String filename, Image uploadedImage) (inherited from PhotoManager)
+ * 3. PhotoUtil.createPhoto(filename, id, uploadedImage) gets called
+ * 4. PhotoFactory.getInstance() gets called (returns the Singleton instance of the BookPhotoFactory Class, which is used to create BookPhoto instances)
+ * 5. createPhoto()/createPhoto(PhotoId id) from the BookPhotoFactory gets called and calls the constructor of the BookPhoto class
+ * 
+ * Object creation solution:
+ * 1. Delegation: separate­object (delegated to BookPhotoFactory)
+ * 2. Selection: by-subclassing (BookPhoto_Factory is a subclass of PhotoFactory)
+ * 3. Configuration: N/A
+ * 4. Instantiation: in-code (Constructor gets called directly via new)
+ * 5. Initialization: by-fixed-signature (field assignment provided via fixed method signature)
+ * 6. Building: N/A
+ * 
+ */
+
+
 package org.wahlzeit.model;
 
 import java.util.*;
