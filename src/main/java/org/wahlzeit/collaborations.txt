@@ -1,0 +1,93 @@
+/**
+ *  Collaboration between BookPhoto and Book
+ */
+public collaboration BookPhoto {
+
+	public role BookPhoto {
+		public Book getBook();
+
+
+		public void setBook(Book);
+	}
+
+
+	public role Book {
+		// no methods
+	}
+}
+
+//Bindings
+public class BookPhoto extends Photo binds Book.BookPhoto {
+	
+	public Book getBook() {
+		return Book.BookPhoto.getBook();
+	}
+
+	public void setBook(Book book) {
+		Book.BookPhoto.setBook(book);
+	}
+}
+
+
+/**
+ *  Collaboration between Book and BookType
+ */
+public collaboration Book {
+
+	public role Book {
+		public BookType getType();
+	}
+
+
+	public role BookType {
+		public Book createInstance();
+		
+		public boolean hasInstance(Book):
+	}
+}
+
+//Bindings
+public class Book extends DataObject binds Book.Book {
+	public BookType getType() {
+		return Book.Book.getType();
+	}
+}
+
+public class BookType extends DataObject binds Book.BookType {
+	public Book createInstance() {
+		return Book.BookType.createInstance();
+	}
+	
+	public boolean hasInstance(Book book) {
+		return Book.BookType.hasInstance(book);
+	}
+}
+
+/**
+ *  Collaboration between Location and Coordinate
+ */
+public collaboration Location {
+
+	public role Location {
+		public Coordinate getCoordinate();
+		
+		public void setCoordinate(Coordinate);
+	}
+
+
+	public role Coordinate {
+		// no methods
+	}
+}
+
+//Bindings
+public class Location binds Location.Coordinate {
+	
+	public Coordinate getCoordinate() {
+		return Location.Coordinate.getCoordinate();
+	}
+		
+	public void setCoordinate(Coordinate coord) {
+		Location.Coordinate.setCoordinate(coord);
+	}
+}
